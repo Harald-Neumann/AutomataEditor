@@ -232,15 +232,7 @@ export function toLatex(graph: Graph) {
         return label.replace(/_/g, "\\_").replace(/#/g, "\\#").replaceAll("{", "\\{").replaceAll("}", "\\}");
     }
 
-    let str = `\\documentclass {article}
-
-\\usepackage {tikz}
-\\usetikzlibrary{automata,arrows}
-\\usetikzlibrary {positioning}
-\\begin {document}
-\\begin {center}
-\\begin {tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=5 cm, scale = 1, transform shape, initial text={}]
-`;
+    let str = "\\begin {tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=5 cm, scale = 1, transform shape, initial text={}]\n"
     // [-latex ,auto ,node distance =4 cm and 5cm ,on grid, semithick]
     str +=
         graph.nodes.map((node: Node) => {
@@ -254,15 +246,13 @@ export function toLatex(graph: Graph) {
         graph.links.map((link: Link) =>
         // link.from + " -> " + link.to + " [label=\"" + link.label + "\"]"
         {
-            const label = link.label ? `node {${quoteLabel(isEpsilon(link.label) ? "$\\varepsilon$" : link.label)}}` : "";
-            return `\\path (${link.from}) edge [${link.to === link.from ? "loop" : ""}] ${label} (${link.to});`;
+            const label = `node {${quoteLabel(isEpsilon(link.label) ? "$\\varepsilon$" : link.label)}}`;
+            return `\\path[->] (${link.from}) edge [${link.to === link.from ? "loop" : ""}] ${label} (${link.to});`;
         }
         ).join("\n");
     str += "\n";
 
-    str += `\\end{tikzpicture}
-\\end{center}
-\\end{document}`;
+    str += "\\end{tikzpicture}"
 
     return str;
 }
