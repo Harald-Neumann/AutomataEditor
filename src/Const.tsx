@@ -62,6 +62,12 @@ export const formats: Format[] = [
         export: true,
         adminOnly: false,
     },
+    {
+        name: "Graphviz",
+        import: false,
+        export: true,
+        adminOnly: false
+    },
     // TODO: dot / graphviz
 ];
 export const clouds: Cloud[] = [

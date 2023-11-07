@@ -49,7 +49,7 @@ import { DiagramWrapper } from './graphComponents/DiagramWrapper';
 import './App.css';
 import { clouds, formats, nodeColor, nodeHighlightColor, pasteeeApiToken, pasteeePublicApiToken, pwd_hash, startNodeShape } from './Const';
 import Info from './components/Info';
-import { fiveTuple, getPowerGraph, getReachableGraph, graphToGrammar, makeAtomic, minimize, ofRegEx, removeEpsilon, reverseGraph, toLatex, toRegEx, intersectionGraph, isEquiv, differenceGraph } from './GraphUtils';
+import { fiveTuple, getPowerGraph, getReachableGraph, graphToGrammar, makeAtomic, minimize, ofRegEx, removeEpsilon, reverseGraph, toLatex, toGraphviz, toRegEx, intersectionGraph, isEquiv, differenceGraph } from './GraphUtils';
 import { Cloud, ControlledAccess, Format, Graph, Paste } from "./Interfaces";
 import Multi from './components/Multi';
 import Single from './components/Single';
@@ -729,6 +729,10 @@ function App() {
           output = toLatex(graph);
           setExportLanguage("latex");
           break;
+          case 'Graphviz':
+            output = toGraphviz(graph);
+            setExportLanguage("dot");
+            break;
         case '5-Tuple':
           output = fiveTuple(graph);
           setExportLanguage("text");

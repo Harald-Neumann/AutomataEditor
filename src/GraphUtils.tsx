@@ -257,6 +257,28 @@ export function toLatex(graph: Graph) {
     return str;
 }
 
+export function toGraphviz(graph: Graph) {
+    let str = "digraph finite_state_machine {\nrankdir=LR;\n"
+
+    str += "node [label= \"\", shape=none,height=.0,width=.0] start;\n"
+
+    str += 
+        graph.nodes.map((node: Node) => 
+            `node [shape = ${node.isAccepting?"doublecircle":"circle"}, label = ${node.label}] ${node.id};` 
+        ).join("\n")
+    str += "\n"
+
+    str += "start -> 0;\n"
+
+    str +=
+        graph.links.map((link: Link) => 
+            `${link.from} -> ${link.to} [label = "${isEpsilon(link.label)?"&#949;":link.label}"];`
+        ).join("\n")
+
+    str += "\n}"
+    return str
+} 
+
 export function fiveTuple(graph: Graph) {
     const alphabet = Array.from(getAlphabet(graph));
     const start = getStart(graph);
