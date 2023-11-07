@@ -247,7 +247,10 @@ export function toLatex(graph: Graph) {
         // link.from + " -> " + link.to + " [label=\"" + link.label + "\"]"
         {
             const label = `node {${quoteLabel(isEpsilon(link.label) ? "$\\varepsilon$" : link.label)}}`;
-            return `\\path[->] (${link.from}) edge [${link.to === link.from ? "loop" : ""}] ${label} (${link.to});`;
+            let options: string[] = []
+            if(link.from === link.to) options.push("loop")
+            else if(graph.links.some(e => e.from === link.to && e.to === link.from)) options.push("bend left=10")
+            return `\\path[->] (${link.from}) edge ${options.length !== 0? "[" + options.join(", ") + "]" : ""} ${label} (${link.to});`;
         }
         ).join("\n");
     str += "\n";
